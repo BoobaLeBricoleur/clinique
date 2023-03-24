@@ -12,6 +12,13 @@
 <?php
 session_start();
 
+if(isset($_SESSION['erreurType'])){
+    echo('Veuillez choisir le bon type de fichier');
+}
+if(isset($_SESSION['erreurTaille'])){
+    echo('Fichier trop volumineux');
+}
+
     if($_SESSION['connexion']!='secretaire'){
         header('location:../index.html');
         exit;

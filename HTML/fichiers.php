@@ -7,28 +7,30 @@ session_start();
 
 $NumSecu =  $_SESSION['NumSecu'];
 
+echo($_FILES['CI']['type']);
 
-if ($_FILES['CI']['size'] <= 1500000)
+$tailleCI = $_FILES['CI']['size'];
+$tailleMutu = $_FILES['mutuelle']['size'];
+$tailleVita = $_FILES['cVitale']['size'];
 
-        {
 
-                // Testons si l'extension est autorisée
+if ($tailleCI <= 1500000 && $tailleMutu <= 1500000 && $tailleVita <= 1500000){
+                $infosfichierCi = pathinfo($_FILES['CI']['name']);
+                $infosfichierMutu = pathinfo($_FILES['mutuelle']['name']);
+                $infosfichierVita = pathinfo($_FILES['cVitale']['name']);
 
-                $infosfichier = pathinfo($_FILES['CI']['name']);
-
-                $extension_upload = $infosfichier['extension'];
-                echo $infosfichier['extension'];
+                $extension_uploadCi = $infosfichierCi['extension'];
+                $extension_uploadMutu = $infosfichierMutu['extension'];
+                $extension_uploadVita = $infosfichierVita['extension'];
 
                 $extensions_autorisees = array('jpg', 'jpeg', 'pdf', 'png','PNG','PDF','JPEG','JPG');
 
-                if (in_array($extension_upload, $extensions_autorisees))
-
+                if (in_array($extension_uploadCi, $extensions_autorisees) && in_array($extension_uploadMutu, $extensions_autorisees) && in_array($extension_uploadVita, $extensions_autorisees))
                 {
-
                 echo("Bonne extension de fichier");
-
                 }
                 else{
+                    $_SESSION['erreurType']=true;
                     echo("MAUVAIS TYPE DE FICHIER, retour à la page précédente");
                     header('Location:documents.php');
                     exit();
@@ -37,6 +39,7 @@ if ($_FILES['CI']['size'] <= 1500000)
 
         }
 else{
+    $_SESSION['erreurTaille']=true;
     echo('FICHIER TROP GROS');
     header('Location:documents.php');
     exit();
@@ -115,6 +118,6 @@ echo ("pièces jointes ajoutées! Retour à la page d'enregistrement d'un patien
 ?>
 
     <script type="text/javascript">
-        var obj = 'window.location.replace("../HTML/panelAdmin.php");';
-        setTimeout(obj, 20000);
+        //var obj = 'window.location.replace("../HTML/panelAdmin.php");';
+        //setTimeout(obj, 20000);
     </script>
